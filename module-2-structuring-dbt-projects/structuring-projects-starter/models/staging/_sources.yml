@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: library
+    description: "Raw library tables loaded into the raw schema."
+    schema: raw
+    tables:
+      - name: raw_books
+        description: "One row per book in the catalog."
+      # TODO (Task 1): add raw_loans here so it can be referenced with source().

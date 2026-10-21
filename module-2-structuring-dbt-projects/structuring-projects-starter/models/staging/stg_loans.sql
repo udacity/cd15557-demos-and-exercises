@@ -1,0 +1,4 @@
+-- TODO (Task 1): Build the loans staging model reading from the SOURCE.
+-- Use source('library', 'raw_loans') and expose:
+--   loan_id, book_id, member_id, loan_date, return_date
+-- Follow the pattern in stg_books.sql.

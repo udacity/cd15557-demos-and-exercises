@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_books
+    columns:
+      - name: book_id
+        tests:
+          - unique
+          - not_null
+      - name: genre
+        tests:
+          - accepted_values:
+              values: ['Mystery', 'Fiction', 'Technical']
+
+  - name: stg_loans
+    columns:
+      - name: loan_id
+        tests:
+          - unique
+          - not_null
+      - name: book_id
+        tests:
+          - relationships:
+              to: ref('stg_books')
+              field: book_id

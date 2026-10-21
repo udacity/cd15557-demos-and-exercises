@@ -1,0 +1,22 @@
+-- TODO: Build the fact model.
+--
+-- A fact model records events at a clear grain: here, ONE ROW PER LOAN.
+-- It keeps the foreign keys (what the loan points at) and adds measures
+-- (numbers/flags you can aggregate later).
+--
+-- Build `fct_loans` from stg_loans with these columns:
+--
+--   loan_id                      -- the grain (one row per loan)
+--   book_id, member_id           -- foreign keys
+--   loan_date, return_date       -- event dates
+--   loan_duration_days           -- return_date - loan_date (null if not returned)
+--   is_returned                  -- true when return_date is not null
+--   book_loans_to_date           -- WINDOW FUNCTION: running count of loans for
+--                                --   this book, in date order
+--
+-- For book_loans_to_date use a window function:
+--   count(*) over (partition by book_id order by loan_date, loan_id)
+-- This counts, for each loan, how many times that book has been loaned up to
+-- and including this loan -- without collapsing the one-row-per-loan grain.
+--
+-- Reference the upstream model with ref().

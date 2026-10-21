@@ -1,0 +1,4 @@
+-- TODO: Build the staging model for loans.
+-- Select from the raw_loans seed using ref(), and expose these columns:
+--   loan_id, book_id, member_id, loan_date, return_date
+-- Follow the pattern in stg_books.sql.

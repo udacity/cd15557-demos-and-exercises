@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  # One column is tested for you as an example. Add the rest (see the TODOs).
+  - name: stg_books
+    columns:
+      - name: book_id
+        tests:
+          - unique
+          - not_null
+      # TODO: test that `genre` is only ever one of the three known values.
+      # - name: genre
+      #   tests:
+      #     - accepted_values:
+      #         values: ['Mystery', 'Fiction', 'Technical']
+
+  # TODO: add stg_loans below.
+  #   * loan_id  -> unique, not_null
+  #   * book_id  -> relationships test pointing at stg_books.book_id
+  #                 (every loan's book must exist in the books table)

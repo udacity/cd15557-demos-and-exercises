@@ -1,5 +1,5 @@
 # Solution — Counting Loans per Book
-*Module 1 · Getting Started with dbt*
+*Module 3 · Getting Started with dbt*
 
 Two files complete the exercise. Drop them into the starter project at the paths below and run `dbt run`.
 

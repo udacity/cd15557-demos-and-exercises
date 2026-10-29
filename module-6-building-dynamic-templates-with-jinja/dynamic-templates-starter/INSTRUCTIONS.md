@@ -1,5 +1,5 @@
 # Reusing Loan-Status Logic with a Macro
-*Module 6 · Building Dynamic Templates with Jinja*
+*Module 12 · Building Dynamic Templates with Jinja*
 
 dbt models are **Jinja templates** that compile to SQL. A **macro** is a named,
 reusable piece of that template — write the logic once, call it from many models.

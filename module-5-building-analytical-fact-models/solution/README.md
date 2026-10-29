@@ -1,5 +1,5 @@
 # Solution — Building a Loans Fact with a Running Count
-*Module 5 · Building Analytical Fact Models*
+*Module 11 · Building Analytical Fact Models in dbt*
 
 One model completes the exercise: `models/marts/fct_loans.sql`.
 

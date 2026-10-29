@@ -1,5 +1,5 @@
 # Solution — Catching Bad Loans with Tests
-*Module 8 · Adding Tests*
+*Module 15 · Adding Tests to dbt Models*
 
 The completed `models/staging/schema.yml` adds four tests to the example one:
 

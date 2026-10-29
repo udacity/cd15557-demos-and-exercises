@@ -1,5 +1,5 @@
 # Structuring the Library's Staging Layer
-*Module 2 · Structuring dbt Projects*
+*Module 5 · Structuring dbt Projects*
 
 Now that the library's raw data arrives as proper raw tables, you'll structure the project the way a real dbt project is organized: read raw data through **sources**, bring in a small **static reference file** as a seed, and keep models tidy with **tags** and consistent **naming**.
 

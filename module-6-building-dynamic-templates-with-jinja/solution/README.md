@@ -1,5 +1,5 @@
 # Solution — Reusing Loan-Status Logic with a Macro
-*Module 6 · Building Dynamic Templates with Jinja*
+*Module 12 · Building Dynamic Templates with Jinja*
 
 One macro completes the exercise: `macros/loan_status.sql`.
 

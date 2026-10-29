@@ -1,5 +1,5 @@
 # Counting Loans per Book
-*Module 1 · Getting Started with dbt*
+*Module 3 · Getting Started with dbt*
 
 A small public library keeps two raw files: a list of **books** and a log of **loans**. Your job is to turn that raw data into clean dbt models and one simple report — and get comfortable with how a dbt project runs.
 

@@ -1,5 +1,5 @@
 # Building a Loans Fact with a Running Count
-*Module 5 · Building Analytical Fact Models*
+*Module 11 · Building Analytical Fact Models in dbt*
 
 A **fact model** records business *events* at a single, well-defined **grain** —
 one row per event — and carries two kinds of columns:

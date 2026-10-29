@@ -1,5 +1,5 @@
 # Documenting the Library Project
-*Module 9 · Documenting dbt Projects*
+*Module 17 · Documenting dbt Projects*
 
 Good documentation lives next to the code. In dbt you describe models and
 columns in YAML, and dbt turns those descriptions into a browsable docs site.

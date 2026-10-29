@@ -84,31 +84,22 @@ result is easy to read on screen.
 
 ---
 
-## Demo 4 — Flagging Full Plays with a Macro
-**Module 12 · Building Dynamic Templates with Jinja**
-
-1. **The repetition.** A "full play vs skip" rule you'd otherwise rewrite in every
-   model.
-2. **Write the macro.** Open `macros/is_full_play.sql` (seconds heard vs track
-   length); call it from `fct_streams`.
-3. **Show the compiled SQL.** Open `target/compiled/.../fct_streams.sql`.
-   *Point:* Jinja is templating; the warehouse only runs plain SQL.
-
----
-
-## Demo 5 — Counting Genres with a Jinja Loop
+## Demo 4 — Flagging Full Plays & Counting Genres
 **Module 13 · Using Jinja in dbt Models**
 
-1. **In-model loop.** Open `streams_by_genre.sql` — `{% set %}` + `{% for %}` +
+1. **A macro.** Open `macros/is_full_play.sql` (seconds heard vs track length); call
+   it from `fct_streams` to flag full plays vs skips.
+   *Point:* write the rule once, reuse it everywhere.
+2. **An in-model loop.** Open `streams_by_genre.sql` — `{% set %}` + `{% for %}` +
    `{% if not loop.last %}` stamps one play-count column per genre.
-2. **Make it configurable.** It uses `var('genres', [...])`; run
-   `dbt run --select streams_by_genre --vars 'genres: [Pop, Rock]'` and show the
-   columns shrink to two.
-3. **Compile.** `dbt compile` to show the loop expanded.
+3. **Make it configurable.** It uses `var('genres', [...])`; run
+   `dbt run --select streams_by_genre --vars 'genres: [Pop, Rock]'`; columns shrink to two.
+4. **Compile.** `dbt compile` / open `target/compiled/.../streams_by_genre.sql` —
+   Jinja is templating; the warehouse only runs plain SQL.
 
 ---
 
-## Demo 6 — Catching Bad Streams with Tests
+## Demo 5 — Catching Bad Streams with Tests
 **Module 15 · Adding Tests to dbt Models**
 
 1. **Add generic tests.** In `schema.yml`: `unique` + `not_null` on `stream_id`,
@@ -119,7 +110,7 @@ result is easy to read on screen.
 
 ---
 
-## Demo 7 — Documenting the Streaming Project
+## Demo 6 — Documenting the Streaming Project
 **Module 17 · Documenting dbt Projects**
 
 1. **Descriptions.** Model/column descriptions in `schema.yml`.
@@ -130,9 +121,9 @@ result is easy to read on screen.
 ---
 
 ### Notes
-- **7 demos, one module each:** M3, M7, M11, M12, M13, M15, M17. The Jinja topic is
-  two modules (M12 macros, M13 in-model), so it is two demos.
+- **6 demos, one module each:** M3, M7, M11, M13, M15, M17.
+- Jinja spans two modules (M12 macros, M13 in-model); this set uses a single combined
+  Jinja demo on M13, so M12 has no standalone demo. Modules 5 (Structuring) and 9
+  (Business-Facing) aren't covered by a demo here either.
 - These are runnable walkthroughs to present or record from — no separate narration
   scripts, no recorded audio.
-- Modules 5 (Structuring) and 9 (Building Business-Facing Models) don't have a demo
-  in this set yet — say the word and I'll add one for each.

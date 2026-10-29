@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: streaming
+    description: "Raw music-streaming tables loaded into the raw schema."
+    schema: raw
+    tables:
+      - name: raw_artists
+        description: "One row per artist."
+      - name: raw_tracks
+        description: "One row per track in the catalog."
+      - name: raw_streams
+        description: "One row per stream (a single play of a track by a user)."
+      - name: raw_users
+        description: "One row per listener."

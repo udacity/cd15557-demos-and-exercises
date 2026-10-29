@@ -1,0 +1,79 @@
+version: 2
+
+models:
+  - name: stg_artists
+    description: "One row per artist."
+    columns:
+      - name: artist_id
+        description: "{{ doc('artist_id') }}"
+        tests:
+          - unique
+          - not_null
+      - name: artist_name
+        description: "The artist's display name."
+
+  - name: stg_tracks
+    description: "One row per track in the catalog."
+    columns:
+      - name: track_id
+        description: "{{ doc('track_id') }}"
+        tests:
+          - unique
+          - not_null
+      - name: artist_id
+        description: "The artist who recorded the track (references stg_artists.artist_id)."
+        tests:
+          - relationships:
+              to: ref('stg_artists')
+              field: artist_id
+      - name: title
+        description: "The track title."
+      - name: genre
+        description: "The track's genre."
+        tests:
+          - accepted_values:
+              values: ['Pop', 'Rock', 'Electronic', 'Jazz']
+      - name: length_seconds
+        description: "The track's length in seconds."
+
+  - name: stg_streams
+    description: "One row per stream (a single play of a track by a user)."
+    columns:
+      - name: stream_id
+        description: "{{ doc('stream_id') }}"
+        tests:
+          - unique
+          - not_null
+      - name: track_id
+        description: "The track that was played (references stg_tracks.track_id)."
+        tests:
+          - relationships:
+              to: ref('stg_tracks')
+              field: track_id
+      - name: user_id
+        description: "The user who listened (references stg_users.user_id)."
+      - name: played_at
+        description: "Timestamp when the stream started."
+      - name: seconds_played
+        description: "How many seconds of the track the user actually heard."
+      - name: device
+        description: "The device the stream played on."
+        tests:
+          - accepted_values:
+              values: ['ios', 'android', 'web', 'desktop']
+
+  - name: stg_users
+    description: "One row per listener."
+    columns:
+      - name: user_id
+        description: "{{ doc('user_id') }}"
+        tests:
+          - unique
+          - not_null
+      - name: country
+        description: "The user's country code."
+      - name: plan
+        description: "The user's subscription plan."
+        tests:
+          - accepted_values:
+              values: ['free', 'premium']

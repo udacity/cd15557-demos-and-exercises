@@ -1,0 +1,22 @@
+name: 'streaming'
+version: '1.0.0'
+profile: 'streaming'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+seeds:
+  streaming:
+    raw:
+      +schema: raw
+
+models:
+  streaming:
+    staging:
+      +materialized: view
+      +tags: ['staging']
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

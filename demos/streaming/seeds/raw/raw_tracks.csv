@@ -1,0 +1,9 @@
+track_id,artist_id,title,genre,length_seconds
+10,1,Neon Tide,Pop,210
+11,1,Afterglow,Pop,185
+12,2,Clockwork,Rock,240
+13,2,Iron Garden,Rock,300
+14,3,Midnight TGV,Electronic,260
+15,3,Pixel Dawn,Electronic,200
+16,4,Blue Marais,Jazz,320
+17,4,Cafe Noir,Jazz,275

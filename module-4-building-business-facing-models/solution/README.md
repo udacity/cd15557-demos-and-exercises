@@ -1,4 +1,5 @@
-# Solution — Building Business-Facing Models
+# Solution — Building a Book Summary Mart
+*Module 4 · Building Business-Facing Models*
 
 One mart completes the exercise: `models/marts/book_summary.sql`.
 

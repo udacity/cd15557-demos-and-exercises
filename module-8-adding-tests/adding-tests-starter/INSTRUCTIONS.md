@@ -1,4 +1,5 @@
-# Adding Tests
+# Catching Bad Loans with Tests
+*Module 8 · Adding Tests*
 
 Tests are how dbt checks that your data is what you expect. The most common ones
 are **generic tests** you declare in YAML:

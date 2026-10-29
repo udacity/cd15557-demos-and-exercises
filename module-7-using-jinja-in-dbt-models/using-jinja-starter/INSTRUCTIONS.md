@@ -1,4 +1,5 @@
-# Using Jinja in dbt Models
+# Counting Loans by Genre with Jinja
+*Module 7 · Using Jinja in dbt Models*
 
 A macro is one way to use Jinja. You can also use Jinja **control structures**
 — `{% set %}`, `{% for %}`, `{% if %}` — directly inside a model to *generate*

@@ -1,4 +1,5 @@
-# Building Business-Facing Models
+# Building a Book Summary Mart
+*Module 4 · Building Business-Facing Models*
 
 Staging and intermediate models are shaped for *engineers*. A **business-facing
 model** (a mart) is shaped for *people who read the data* — analysts, librarians,

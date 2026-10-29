@@ -1,4 +1,5 @@
-# Solution — Adding Tests
+# Solution — Catching Bad Loans with Tests
+*Module 8 · Adding Tests*
 
 The completed `models/staging/schema.yml` adds four tests to the example one:
 

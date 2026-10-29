@@ -1,4 +1,5 @@
-# Solution — Building Analytical Fact Models
+# Solution — Building a Loans Fact with a Running Count
+*Module 5 · Building Analytical Fact Models*
 
 One model completes the exercise: `models/marts/fct_loans.sql`.
 

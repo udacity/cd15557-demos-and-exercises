@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_books
+    description: "One row per book in the library catalog."
+    columns:
+      - name: book_id
+        description: "{{ doc('book_id') }}"
+      - name: title
+        description: "The book's title."
+      - name: author
+        description: "The book's author."
+      - name: genre
+        description: "The book's genre (e.g. Mystery, Fiction, Technical)."
+
+  - name: stg_loans
+    description: "One row per loan (a single checkout of a book)."
+    columns:
+      - name: loan_id
+        description: "{{ doc('loan_id') }}"
+      - name: book_id
+        description: "The book that was borrowed (references stg_books.book_id)."
+      - name: member_id
+        description: "The library member who borrowed the book."
+      - name: loan_date
+        description: "The date the book was checked out."
+      - name: return_date
+        description: "The date the book was returned; null if still on loan."

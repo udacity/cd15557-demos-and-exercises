@@ -1,0 +1,16 @@
+-- TODO: Build a Jinja macro named `loan_status`.
+--
+-- A macro is a reusable SQL template. This one takes the name of a
+-- return-date column and returns a CASE expression:
+--   * when that column is null  -> 'on loan'
+--   * otherwise                 -> 'returned'
+--
+-- Fill in the template between the macro tags. Use {{ ... }} to drop the
+-- column name the caller passes in.
+--
+-- {% macro loan_status(return_date_column) %}
+--     case
+--         when ... is null then 'on loan'
+--         else 'returned'
+--     end
+-- {% endmacro %}

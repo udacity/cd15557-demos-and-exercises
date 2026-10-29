@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: library
+    description: "Raw library tables loaded into the raw schema."
+    schema: raw
+    tables:
+      - name: raw_books
+        description: "One row per book in the catalog."
+      - name: raw_loans
+        description: "One row per loan (checkout) of a book."

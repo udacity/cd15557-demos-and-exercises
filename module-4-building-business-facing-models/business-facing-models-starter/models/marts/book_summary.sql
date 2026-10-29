@@ -1,0 +1,17 @@
+-- TODO: Build the business-facing mart.
+--
+-- A business-facing model gives non-technical users one clean, friendly table.
+-- Build `book_summary` with one row per book (every book, even those never
+-- loaned) and these columns:
+--
+--   book_id, title, author, genre, category, times_loaned, copies_on_loan
+--
+-- Guidance:
+--   * Start from stg_books so every book appears.
+--   * LEFT JOIN stg_genre_categories to add the friendly `category` label.
+--   * LEFT JOIN a per-book count of loans from int_book_loans:
+--       times_loaned   = how many loans that book has
+--       copies_on_loan = loans where return_date is null (not yet returned)
+--   * Use coalesce(...) so books with no loans show 0, not null.
+--
+-- Reference upstream models with ref().

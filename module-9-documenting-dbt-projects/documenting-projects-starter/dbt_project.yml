@@ -1,0 +1,20 @@
+name: 'library'
+version: '1.0.0'
+profile: 'library'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+seeds:
+  library:
+    raw:
+      +schema: raw
+
+models:
+  library:
+    staging:
+      +materialized: view
+      +tags: ['staging']
+    intermediate:
+      +materialized: view

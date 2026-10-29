@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  # stg_books is documented for you as an example. Note book_id pulls its
+  # description from a reusable doc block via {{ doc('book_id') }}.
+  - name: stg_books
+    description: "One row per book in the library catalog."
+    columns:
+      - name: book_id
+        description: "{{ doc('book_id') }}"
+      - name: title
+        description: "The book's title."
+      - name: author
+        description: "The book's author."
+      - name: genre
+        description: "The book's genre (e.g. Mystery, Fiction, Technical)."
+
+  # TODO: document stg_loans the same way.
+  #   * Give the model a description.
+  #   * Describe loan_id using a doc block: "{{ doc('loan_id') }}"
+  #     (write that doc block in docs.md).
+  #   * Describe book_id, member_id, loan_date, return_date in plain text.

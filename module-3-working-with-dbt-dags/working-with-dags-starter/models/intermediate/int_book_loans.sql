@@ -1,0 +1,12 @@
+-- TODO (Task 1): Build the intermediate model.
+--
+-- Combine one row per loan with its book details by joining the two
+-- staging models. Reference each upstream model with ref() so dbt adds
+-- them to the DAG and builds them first.
+--
+-- Return these columns: loan_id, book_id, title, genre, loan_date, return_date
+--
+-- select
+--     ...
+-- from {{ ref('stg_loans') }} as l
+-- join {{ ref('stg_books') }} as b on ...

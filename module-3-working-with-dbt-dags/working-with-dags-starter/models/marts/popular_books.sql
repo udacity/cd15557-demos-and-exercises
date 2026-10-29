@@ -1,0 +1,13 @@
+-- TODO (Task 2): Build the mart model.
+--
+-- Reference the intermediate model with ref() and count how many times
+-- each book was loaned. This adds a second edge to the DAG:
+--   staging -> intermediate -> mart
+--
+-- Return: book_id, title, genre, loan_count
+-- Order by loan_count (highest first).
+--
+-- select
+--     ...
+-- from {{ ref('int_book_loans') }}
+-- group by ...

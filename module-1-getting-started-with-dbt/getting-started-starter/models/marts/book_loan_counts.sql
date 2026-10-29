@@ -1,0 +1,7 @@
+-- TODO: Build a mart that counts how many times each book has been loaned.
+-- Requirements:
+--   * Use ref() to read from stg_books and stg_loans (not the seeds directly).
+--   * Return one row per book with: book_id, title, times_loaned
+--   * Materialize this model as a TABLE using a config() block at the top.
+--
+-- Hint: a LEFT JOIN from books to loans keeps books that have never been loaned.

@@ -1,7 +1,15 @@
 # Demos — Data Modeling & Transformation with dbt
 
-Instructor-led **demos** ("I do") that precede the hands-on exercises ("you do").
-Each demo is a short, runnable walkthrough on the **music-streaming** dataset.
+Short, instructor-led **concept demos** on the **music-streaming** dataset. Each
+demo supports **one conceptual module** — it makes the idea tangible with real
+models, so the learner sees the concept before the hands-on implementation module.
+
+- **Conceptual modules** → these demos (the "why", shown on the streaming data).
+- **Implementation modules** → scripted code videos + the library **exercises**
+  (the "how" and the "you do"); they do not use demos.
+
+Everything the demos reference lives in one real, runnable dbt project:
+[`streaming/`](streaming). A presenter can run any beat live.
 
 The whole course uses **three distinct scenarios** so a learner never just copies
 an answer from the stage before:
@@ -11,9 +19,6 @@ an answer from the stage before:
 | **Demo** (I do) | watch | **Music streaming** — artists, tracks, streams, users |
 | **Exercise** (you do, answer key) | try with help | Library — books, loans, members, genres |
 | **Project** (you do, no key) | prove it | Retail — Brightly orders, customers, products |
-
-Everything the demos reference lives in one real, runnable dbt project:
-[`streaming/`](streaming). A presenter can run any beat live.
 
 ## Run it
 
@@ -47,116 +52,104 @@ result is easy to read on screen.
 
 ---
 
-## Demo 1 — Loading Streams & Counting Plays per Track
-**Sets up:** Module 1 exercise. **Covers:** M1–M2 (getting started with dbt).
+## Demo 1 — From One Query to Layered Models
+**Supports:** Module 4 · Modular Analytics Design. **Leads into:** Module 5 (Structuring dbt Projects) + its exercise.
 
-1. **Tour the project.** Open `models/`, `seeds/`, `dbt_project.yml`.
-   *Point:* this is a dbt project's anatomy — everything is just SQL + YAML.
-2. **Load a seed.** Show `seeds/raw/raw_streams.csv`, run `dbt seed`.
-   *Point:* seeds load raw files into DuckDB as tables.
-3. **A staging model.** Open `models/staging/stg_streams.sql`; it reads with
-   `source()`.
-   *Point:* `source()` points at the raw tables; staging gives each one a clean model.
-4. **Run it.** `dbt run --select stg_streams`; show the created view.
-5. **Use `ref()`.** Open `models/marts/plays_per_track.sql` — it reads
-   `ref('stg_tracks')` and `ref('stg_streams')` to count plays per track; run it.
-   *Point:* `ref()` wires models together and lets dbt figure out the build order.
-6. **Materializations.** Point at `+materialized: view` / `table` in
-   `dbt_project.yml`.
+1. **Start with the tangle.** Answer "plays per track, with genre and artist" as one
+   giant query — joins, filters, and counts all in one place. It works, but it's hard
+   to read and impossible to reuse.
+2. **Break it into layers.** Walk `stg_streams` (clean one source) →
+   `int_streams_enriched` (do the joins once) → `plays_per_track` / `fct_streams`
+   (answer questions).
+   *Point:* one job per model; each layer reads only from the layer below.
+3. **Show the reuse.** Both `fct_streams` and `streams_by_genre` read the same
+   `int_streams_enriched`, so the join is written once and fixed in one place.
 
-**Hand off:** "Now you'll do the same on the library data — build clean staging
-models and a 'times each book was loaned' report."
+*Concept takeaway:* modular design turns one unreadable query into small,
+reusable, testable models.
 
 ---
 
-## Demo 2 — Wiring Streams into a Layered Pipeline
-**Sets up:** Module 3 exercise. **Covers:** M3 (working with dbt DAGs).
+## Demo 2 — Letting ref() Draw the DAG
+**Supports:** Module 6 · Dependency Graphs and Data Lineage. **Leads into:** Module 7 (Working with dbt DAGs) + its exercise.
 
-1. **Layers.** Show `staging → intermediate → marts`.
-   *Point:* each layer has one job; models only read from the layer below.
-2. **See the DAG.** `dbt docs generate`, open the docs site, open the lineage graph.
-   *Point:* the graph is the dependency order, drawn for you from `ref()`/`source()`.
-3. **Build a slice.** `dbt run --select stg_streams+` (everything downstream).
-   *Point:* selectors let you build just the part you're working on.
-4. **Break and trace.** Put a typo in a `ref()` (e.g. in `int_streams_enriched.sql`),
-   run, read the error, find the broken node in the graph, fix it, re-run clean.
+1. **Show the wiring.** Open `int_streams_enriched` reading `ref('stg_streams')`,
+   `ref('stg_tracks')`, `ref('stg_artists')`.
+   *Point:* `ref()` isn't just a name — it's how dbt learns the dependency.
+2. **See the graph.** `dbt docs generate`, open the lineage graph: sources → staging
+   → intermediate → marts, drawn automatically.
+3. **Blast radius.** Hover a node to see what's upstream/downstream; run
+   `dbt build --select int_streams_enriched+` to rebuild just the affected slice.
 
-**Hand off:** "Now you'll grow the library project into this DAG and debug a broken
-dependency."
-
----
-
-## Demo 3 — Building a Streams Fact with a Running Play Count
-**Sets up:** Module 5 exercise. **Covers:** M4–M5 (building analytical fact models).
-
-1. **Grain.** State it: one row per stream. Show `stg_streams`.
-   *Point:* a fact's grain is the single thing one row means.
-2. **Keys + measures.** Open `models/marts/fct_streams.sql` — foreign keys
-   (`track_id`, `user_id`) and measures (`seconds_played`, the `is_full_play` flag).
-3. **Window function.** Point at
-   `count(*) over (partition by track_id order by played_at, stream_id) as plays_to_date`.
-   *Point:* a window adds a running total **without** collapsing the per-stream grain.
-4. **Run and read.** `dbt run --select fct_streams`; query it; show `plays_to_date`
-   climbing 1→5 for track 10 (Neon Tide) and restarting for the next track.
-
-**Hand off:** "Now you'll build the loans fact on the library data, with its own
-window-function measure."
+*Concept takeaway:* you never order models by hand — the DAG is derived from
+`ref()`/`source()`, and lineage is a debugging and impact tool.
 
 ---
 
-## Demo 4 — Flagging Full Plays & Counting Genres
-**Sets up:** Module 6 and Module 7 exercises. **Covers:** M6–M7 (Jinja macros + in-model templating).
+## Demo 3 — Designing a Mart Stakeholders Trust
+**Supports:** Module 8 · Designing Business-Facing Analytics Models. **Leads into:** Module 9 (Building Business-Facing Models in dbt) + its exercise.
 
-1. **A macro.** Open `macros/is_full_play.sql` — it classifies a stream as a full
-   play vs a skip (`seconds_played` vs the track's `length_seconds`). Show it called
-   from `fct_streams`.
-2. **Show the compiled SQL.** Open `target/compiled/.../fct_streams.sql`.
-   *Point:* Jinja is a templating layer; dbt compiles it down to plain SQL.
-3. **In-model loop.** Open `models/marts/streams_by_genre.sql` — a `{% set %}` +
-   `{% for %}` + `{% if not loop.last %}` stamping one play-count column per genre.
-4. **Make it configurable.** It uses `var('genres', [...])`; run
-   `dbt run --select streams_by_genre --vars 'genres: [Pop, Rock]'` and show the
-   column set shrink to two. Finish with `dbt compile` to show the loop expanded.
+1. **Start from the question.** "Which tracks get played the most?"
+2. **Show the mart.** Open `plays_per_track` — business-named columns (`title`,
+   `plays`), one row per track, nothing a stakeholder has to decode.
+3. **Contrast with raw.** Query `stg_streams` — event-level rows that don't answer
+   the question at a glance.
 
-**Hand off:** "Now you'll write a macro (M6) and a Jinja/`var()` model (M7) on the
-library data."
+*Concept takeaway:* a mart is a product for a business question — design it around
+the audience and a clear grain, not around the raw data's shape.
 
 ---
 
-## Demo 5 — Catching Bad Streams with Tests
-**Sets up:** Module 8 exercise. **Covers:** M8 (adding tests).
+## Demo 4 — Grain & the Running-Count Window
+**Supports:** Module 10 · Granularity and Aggregation. **Leads into:** Module 11 (Building Analytical Fact Models in dbt) + its exercise.
 
-1. **Add generic tests.** Open `models/staging/schema.yml`: `unique` + `not_null`
-   on `stream_id`, `accepted_values` on `device`, a `relationships` test
-   (stream → track).
-2. **Green run.** `dbt test`; all 13 pass.
-3. **Break it.** Change a `device` value in `raw_streams.csv` to something not in the
-   accepted list, `dbt seed`, `dbt test`; read the failure output.
-   *Point:* a failing test tells you which rows broke the rule, so you can trust the data.
-4. **Fix and re-run.** Restore the value, `dbt seed`, `dbt test` passes.
+1. **State the grain.** `fct_streams` is one row per stream — say it out loud before
+   any SQL.
+2. **Measures at that grain.** `seconds_played`, and the `is_full_play` flag.
+3. **Window, not collapse.** `plays_to_date` (running count per track) climbs 1→5 for
+   "Neon Tide" **without** collapsing the per-stream rows.
+4. **Aggregate on demand.** `select track_id, count(*) ... group by track_id` — the
+   fact answers many questions precisely because it kept the fine grain.
 
-**Hand off:** "Now you'll add the test suite on the library data, make it fail on
-purpose, and fix it."
+*Concept takeaway:* pick the finest grain and roll up later; a window adds rollups
+without throwing the grain away.
 
 ---
 
-## Demo 6 — Documenting the Streaming Project
-**Sets up:** Module 9 exercise. **Covers:** M9 (documenting dbt projects).
+## Demo 5 — Turning Assumptions into Tests
+**Supports:** Module 14 · Testing Assumptions in Analytics. **Leads into:** Module 15 (Adding Tests to dbt Models) + its exercise.
 
-1. **Descriptions.** Show model and column descriptions in
-   `models/staging/schema.yml`.
-2. **Doc block.** Open `models/staging/docs.md` — reusable `{% docs %}` blocks
-   referenced from columns with `{{ doc('stream_id') }}`.
-   *Point:* write the explanation once, reuse it anywhere.
-3. **Generate the site.** `dbt docs generate`, open it, browse the descriptions.
-4. **Lineage.** Open the lineage graph; show sources → staging → intermediate → marts.
+1. **Name an assumption.** "Every stream has a unique id and points at a real track,
+   and `device` is one of a known set."
+2. **Show it as tests.** In `schema.yml`: `unique` + `not_null` on `stream_id`, a
+   `relationships` test (stream → track), `accepted_values` on `device`.
+3. **Break one.** Change a `device` value to something off-list, `dbt seed`,
+   `dbt test`; read which rows failed.
 
-**Hand off:** "Now you'll document the library project and generate its docs site."
+*Concept takeaway:* tests encode the assumptions consumers rely on — they point at
+the broken rows; they don't prove the data is "correct", so test what matters.
+
+---
+
+## Demo 6 — Documenting Streams for Reuse
+**Supports:** Module 16 · Documenting Analytics for Reuse. **Leads into:** Module 17 (Documenting dbt Projects) + its exercise.
+
+1. **Descriptions with the code.** Show model/column descriptions in `schema.yml`.
+2. **Write once, reuse.** A `{% docs %}` block in `docs.md`, referenced from a column
+   with `{{ doc('stream_id') }}`.
+3. **Generate the site.** `dbt docs generate`, browse the descriptions, search a
+   column, open the lineage graph.
+
+*Concept takeaway:* documentation lives next to the model and is generated into a
+browsable site + lineage, so a teammate can self-serve instead of asking you.
 
 ---
 
 ### Notes
-- **6 demos**, mapped to modules: M1–2 → Demo 1, M3 → Demo 2, M4–5 → Demo 3,
-  M6–7 → Demo 4, M8 → Demo 5, M9 → Demo 6.
-- These are runnable walkthroughs to present or record from — there are no
-  separate narration scripts and no recorded audio.
+- **6 demos, one per conceptual module:** M4, M6, M8, M10, M14, M16. Each leads into
+  its paired implementation module (M5, M7, M9, M11, M15, M17) and that module's
+  exercise.
+- Module 2 (Analytics Engineering and the Modern Data Stack) is a landscape concept
+  with no code to demo, so it has no demo here.
+- These are runnable walkthroughs to present or record from — there are no separate
+  narration scripts and no recorded audio.

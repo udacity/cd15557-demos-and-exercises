@@ -47,8 +47,8 @@ result is easy to read on screen.
 
 ---
 
-## Demo 1 — Getting Started with dbt
-**Sets up:** Module 1 exercise. **Covers:** M1–M2.
+## Demo 1 — Loading Streams & Counting Plays per Track
+**Sets up:** Module 1 exercise. **Covers:** M1–M2 (getting started with dbt).
 
 1. **Tour the project.** Open `models/`, `seeds/`, `dbt_project.yml`.
    *Point:* this is a dbt project's anatomy — everything is just SQL + YAML.
@@ -69,8 +69,8 @@ models and a 'times each book was loaned' report."
 
 ---
 
-## Demo 2 — Working with dbt DAGs
-**Sets up:** Module 3 exercise. **Covers:** M3.
+## Demo 2 — Wiring Streams into a Layered Pipeline
+**Sets up:** Module 3 exercise. **Covers:** M3 (working with dbt DAGs).
 
 1. **Layers.** Show `staging → intermediate → marts`.
    *Point:* each layer has one job; models only read from the layer below.
@@ -86,8 +86,8 @@ dependency."
 
 ---
 
-## Demo 3 — Building Analytical Fact Models
-**Sets up:** Module 5 exercise. **Covers:** M4–M5.
+## Demo 3 — Building a Streams Fact with a Running Play Count
+**Sets up:** Module 5 exercise. **Covers:** M4–M5 (building analytical fact models).
 
 1. **Grain.** State it: one row per stream. Show `stg_streams`.
    *Point:* a fact's grain is the single thing one row means.
@@ -104,8 +104,8 @@ window-function measure."
 
 ---
 
-## Demo 4 — Jinja (Macros + In-Model)
-**Sets up:** Module 6 and Module 7 exercises. **Covers:** M6–M7.
+## Demo 4 — Flagging Full Plays & Counting Genres
+**Sets up:** Module 6 and Module 7 exercises. **Covers:** M6–M7 (Jinja macros + in-model templating).
 
 1. **A macro.** Open `macros/is_full_play.sql` — it classifies a stream as a full
    play vs a skip (`seconds_played` vs the track's `length_seconds`). Show it called
@@ -123,8 +123,8 @@ library data."
 
 ---
 
-## Demo 5 — Adding Tests
-**Sets up:** Module 8 exercise. **Covers:** M8.
+## Demo 5 — Catching Bad Streams with Tests
+**Sets up:** Module 8 exercise. **Covers:** M8 (adding tests).
 
 1. **Add generic tests.** Open `models/staging/schema.yml`: `unique` + `not_null`
    on `stream_id`, `accepted_values` on `device`, a `relationships` test
@@ -140,8 +140,8 @@ purpose, and fix it."
 
 ---
 
-## Demo 6 — Documenting dbt Projects
-**Sets up:** Module 9 exercise. **Covers:** M9.
+## Demo 6 — Documenting the Streaming Project
+**Sets up:** Module 9 exercise. **Covers:** M9 (documenting dbt projects).
 
 1. **Descriptions.** Show model and column descriptions in
    `models/staging/schema.yml`.

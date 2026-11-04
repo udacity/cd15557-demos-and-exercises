@@ -1,24 +1,18 @@
 # Building a Book Summary Mart
 *Module 9 · Building Business-Facing Models in dbt*
 
-Staging and intermediate models are shaped for *engineers*. A **business-facing
-model** (a mart) is shaped for *people who read the data* — analysts, librarians,
-managers. It has a clear name, only the columns they care about, friendly labels,
-and no surprising nulls.
+Staging and intermediate models are shaped for *engineers*. A **business-facing model** (a mart) is shaped for *people who read the data*: analysts, librarians, managers. It has a clear name, only the columns they care about, friendly labels, and no surprising nulls.
 
 ## The base (already provided)
 
-- Seeds, sources, and the staging models (`stg_books`, `stg_loans`,
-  `stg_genre_categories`).
-- The intermediate model `int_book_loans` (one row per loan, enriched with book
-  details).
+- Seeds, sources, and the staging models (`stg_books`, `stg_loans`, `stg_genre_categories`).
+- The intermediate model `int_book_loans` (one row per loan, enriched with book details).
 
 ## Your task
 
 Build one business-facing mart: **`models/marts/book_summary.sql`**.
 
-It should have **one row per book — including books that were never loaned** —
-with these columns:
+It should have **one row per book, including books that were never loaned**, with these columns:
 
 | Column | Meaning |
 |---|---|
@@ -37,7 +31,7 @@ Tips:
 ## How to run
 
 ```bash
-dbt seed     # first time only
+dbt seed
 dbt run --select book_summary
 ```
 

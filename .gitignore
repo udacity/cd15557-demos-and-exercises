@@ -8,3 +8,4 @@ logs/
 *.duckdb
 .user.yml
 
+*.duckdb.wal

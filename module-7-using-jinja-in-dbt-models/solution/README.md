@@ -1,4 +1,4 @@
-# Solution — Counting Loans by Genre with Jinja
+# Solution: Counting Loans by Genre with Jinja
 *Module 13 · Using Jinja in dbt Models*
 
 One model completes the exercise: `models/marts/loans_by_genre.sql`.

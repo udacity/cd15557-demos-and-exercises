@@ -1,7 +1,7 @@
-# Solution — Counting Loans per Book
+# Solution: Counting Loans per Book
 *Module 3 · Getting Started with dbt*
 
-Two files complete the exercise. Drop them into the starter project at the paths below and run `dbt run`.
+This folder is the complete solution project. Run `dbt seed` then `dbt run` to reproduce the result below. The two files you write in this exercise are:
 
 | Solution file | Goes in the project at |
 |---|---|
@@ -10,7 +10,7 @@ Two files complete the exercise. Drop them into the starter project at the paths
 
 ## Expected result
 
-`dbt run` builds three models — `stg_books` and `stg_loans` as **views**, `book_loan_counts` as a **table**. `book_loan_counts` returns one row per book:
+`dbt run` builds three models, `stg_books` and `stg_loans` as **views**, `book_loan_counts` as a **table**. `book_loan_counts` returns one row per book:
 
 | book_id | title | times_loaned |
 |---|---|---|

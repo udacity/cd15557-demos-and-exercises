@@ -5,7 +5,7 @@ Now that the library's raw data arrives as proper raw tables, you'll structure t
 
 ## What's provided
 
-- The raw tables (`raw_books`, `raw_loans`) load into a dedicated **`raw` schema** and are meant to be read as **sources**. (The small `macros/generate_schema_name.sql` that makes this work is set up for you — you don't need to touch it.)
+- The raw tables (`raw_books`, `raw_loans`) load into a dedicated **`raw` schema** and are meant to be read as **sources**. (The small `macros/generate_schema_name.sql` that makes this work is set up for you, so you don't need to touch it.)
 - A source file `models/staging/_sources.yml` with `raw_books` already declared as an example.
 - An example staging model `stg_books.sql` that reads from the source.
 - A static reference file `seeds/genre_categories.csv` (maps each genre to a broader category).

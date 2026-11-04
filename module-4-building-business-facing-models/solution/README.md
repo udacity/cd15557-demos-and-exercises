@@ -1,4 +1,4 @@
-# Solution — Building a Book Summary Mart
+# Solution: Building a Book Summary Mart
 *Module 9 · Building Business-Facing Models in dbt*
 
 One mart completes the exercise: `models/marts/book_summary.sql`.
@@ -22,5 +22,4 @@ Key ideas:
 | Rivers of Code | Technical | Non-Fiction | 1 | 1 |
 | Midnight Trains | Mystery | Fiction | 0 | 0 |
 
-Note the last row: book 5 was never loaned, yet it still appears with `0`s —
-that's the point of a business-facing model.
+Note the last row: book 5 was never loaned, yet it still appears with `0`s. That's the point of a business-facing model.

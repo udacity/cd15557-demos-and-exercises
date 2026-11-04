@@ -1,4 +1,4 @@
-# Solution — Ranking Popular Books through a DAG
+# Solution: Ranking Popular Books through a DAG
 *Module 7 · Working with dbt DAGs*
 
 Two new models complete the DAG.
@@ -21,7 +21,7 @@ stg_loans  ┘
 - `dbt run` builds the models in dependency order: the staging views first,
   then `int_book_loans`, then the `popular_books` table.
 - `int_book_loans` has **10 rows** (one per loan).
-- `popular_books` has **5 rows** — book 5 never appears because it has no loans
+- `popular_books` has **5 rows**, book 5 never appears because it has no loans
   and the intermediate model uses an inner join:
 
 | title | genre | loan_count |

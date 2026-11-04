@@ -1,7 +1,7 @@
 # Counting Loans per Book
 *Module 3 · Getting Started with dbt*
 
-A small public library keeps two raw files: a list of **books** and a log of **loans**. Your job is to turn that raw data into clean dbt models and one simple report — and get comfortable with how a dbt project runs.
+A small public library keeps two raw files: a list of **books** and a log of **loans**. Your job is to turn that raw data into clean dbt models and one simple report, and get comfortable with how a dbt project runs.
 
 ## What you'll build
 
@@ -10,7 +10,7 @@ A small public library keeps two raw files: a list of **books** and a log of **l
 
 ## Getting started
 
-The project is already set up for you. The two raw files are dbt **seeds** (`seeds/raw_books.csv`, `seeds/raw_loans.csv`), and one example staging model, `models/staging/stg_books.sql`, is provided so you can see the pattern. The workspace is already connected to the database — you don't need to configure a connection.
+The project is already set up for you. The two raw files are dbt **seeds** (`seeds/raw_books.csv`, `seeds/raw_loans.csv`), and one example staging model, `models/staging/stg_books.sql`, is provided so you can see the pattern. The project comes with its database connection already configured, so you don't need to set one up.
 
 First, load the seeds and run the project as-is to confirm everything works:
 

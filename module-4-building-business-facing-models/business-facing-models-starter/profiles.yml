@@ -1,0 +1,10 @@
+# Connects dbt to a local DuckDB database. The workspace uses this automatically,
+# so learners do not configure anything. DuckDB creates the file on the first run.
+library:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_PATH', 'library.duckdb') }}"
+      schema: main
+      threads: 4

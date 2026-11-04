@@ -5,3 +5,6 @@
 --   * Materialize this model as a TABLE using a config() block at the top.
 --
 -- Hint: a LEFT JOIN from books to loans keeps books that have never been loaned.
+
+-- Placeholder so the starter runs before you begin. Replace it with your model.
+select 1 as placeholder

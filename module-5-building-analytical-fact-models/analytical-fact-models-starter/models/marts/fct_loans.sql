@@ -20,3 +20,6 @@
 -- and including this loan -- without collapsing the one-row-per-loan grain.
 --
 -- Reference the upstream model with ref().
+
+-- Placeholder so the starter runs before you begin. Replace it with your model.
+select 1 as placeholder

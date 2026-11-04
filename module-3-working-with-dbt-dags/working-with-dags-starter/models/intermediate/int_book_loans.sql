@@ -10,3 +10,6 @@
 --     ...
 -- from {{ ref('stg_loans') }} as l
 -- join {{ ref('stg_books') }} as b on ...
+
+-- Placeholder so the starter runs before you begin. Replace it with your model.
+select 1 as placeholder

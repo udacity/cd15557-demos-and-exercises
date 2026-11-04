@@ -15,3 +15,6 @@
 --   * Use coalesce(...) so books with no loans show 0, not null.
 --
 -- Reference upstream models with ref().
+
+-- Placeholder so the starter runs before you begin. Replace it with your model.
+select 1 as placeholder

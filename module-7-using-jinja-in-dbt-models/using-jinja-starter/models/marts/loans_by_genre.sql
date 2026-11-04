@@ -17,4 +17,6 @@ select
     {% for g in genres %}
     -- TODO: count(*) filter (where genre = '...') as ..._loans   (+ comma unless loop.last)
     {% endfor %}
+    -- Placeholder so the starter runs before you begin. Replace it with your per-genre counts.
+    1 as placeholder
 from {{ ref('int_book_loans') }}

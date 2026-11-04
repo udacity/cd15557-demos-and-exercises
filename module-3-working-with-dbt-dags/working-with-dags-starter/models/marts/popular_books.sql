@@ -11,3 +11,6 @@
 --     ...
 -- from {{ ref('int_book_loans') }}
 -- group by ...
+
+-- Placeholder so the starter runs before you begin. Replace it with your model.
+select 1 as placeholder

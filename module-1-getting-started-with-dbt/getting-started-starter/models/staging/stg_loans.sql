@@ -2,3 +2,6 @@
 -- Select from the raw_loans seed using ref(), and expose these columns:
 --   loan_id, book_id, member_id, loan_date, return_date
 -- Follow the pattern in stg_books.sql.
+
+-- Placeholder so the starter runs before you begin. Replace it with your model.
+select 1 as placeholder

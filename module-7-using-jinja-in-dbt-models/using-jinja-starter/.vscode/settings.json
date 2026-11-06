@@ -1,0 +1,27 @@
+{
+  // Terminals start bash with /workspace/.vscode/workspace.bashrc, which puts
+  // /opt/venv/bin on PATH (so `dbt` works) and shortens the prompt.
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "args": ["--rcfile", "/workspace/.vscode/workspace.bashrc"],
+      "icon": "terminal-bash"
+    }
+  },
+  "terminal.integrated.defaultProfile.linux": "bash",
+
+  // Python: use the image's venv, without the Python Environments extension
+  // (source of the "could not resolve interpreter path" popup) and without
+  // re-activating the venv in every terminal.
+  "python.defaultInterpreterPath": "/opt/venv/bin/python",
+  "python.useEnvironmentsExtension": false,
+  "python.terminal.activateEnvironment": false,
+
+  // Skip the code-server welcome page.
+  "workbench.startupEditor": "readme",
+  "workbench.welcomePage.walkthroughs.openOnInstall": false,
+
+  // Hide the AI chat; it isn't connected to anything in this workspace.
+  "chat.disableAIFeatures": true,
+  "workbench.secondarySideBar.defaultVisibility": "hidden"
+}

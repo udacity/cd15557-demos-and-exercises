@@ -11,12 +11,12 @@ This repo contains one folder for each module and each module folder contains su
 ```bash
 module-#-name/
 ├── exercise-name-starter/
-│   └── INSTRUCTIONS.md
+│   └── README.md
 └── solution/
     └── .gitkeep
 ```
 
-- `exercise-name-starter/` - Contains the starter files and instructions for the exercise (INSTRUCTIONS.md template provided)
+- `exercise-name-starter/` - Contains the starter files and instructions for the exercise (README.md template provided)
 - `solution/` - Contains the solution files for the exercise.
 
 > **Note:** The `.gitkeep` file in the solution folder preserves the directory structure in the repository when the folder is empty. It should be removed when one or more solution files have been added to this folder.

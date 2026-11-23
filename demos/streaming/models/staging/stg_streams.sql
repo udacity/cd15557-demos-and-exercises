@@ -4,6 +4,6 @@ select
     track_id,
     user_id,
     played_at,
-    seconds_played,
+    coalesce(seconds_played, 0) as seconds_played,
     device
 from {{ source('streaming', 'raw_streams') }}

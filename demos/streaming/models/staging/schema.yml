@@ -6,7 +6,7 @@ models:
     columns:
       - name: artist_id
         description: "{{ doc('artist_id') }}"
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: artist_name
@@ -17,22 +17,24 @@ models:
     columns:
       - name: track_id
         description: "{{ doc('track_id') }}"
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: artist_id
         description: "The artist who recorded the track (references stg_artists.artist_id)."
-        tests:
+        data_tests:
           - relationships:
-              to: ref('stg_artists')
-              field: artist_id
+              arguments:
+                to: ref('stg_artists')
+                field: artist_id
       - name: title
         description: "The track title."
       - name: genre
         description: "The track's genre."
-        tests:
+        data_tests:
           - accepted_values:
-              values: ['Pop', 'Rock', 'Electronic', 'Jazz']
+              arguments:
+                values: ['Pop', 'Rock', 'Electronic', 'Jazz']
       - name: length_seconds
         description: "The track's length in seconds."
 
@@ -41,15 +43,16 @@ models:
     columns:
       - name: stream_id
         description: "{{ doc('stream_id') }}"
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: track_id
         description: "The track that was played (references stg_tracks.track_id)."
-        tests:
+        data_tests:
           - relationships:
-              to: ref('stg_tracks')
-              field: track_id
+              arguments:
+                to: ref('stg_tracks')
+                field: track_id
       - name: user_id
         description: "The user who listened (references stg_users.user_id)."
       - name: played_at
@@ -58,22 +61,24 @@ models:
         description: "How many seconds of the track the user actually heard."
       - name: device
         description: "The device the stream played on."
-        tests:
+        data_tests:
           - accepted_values:
-              values: ['ios', 'android', 'web', 'desktop']
+              arguments:
+                values: ['ios', 'android', 'web', 'desktop']
 
   - name: stg_users
     description: "One row per listener."
     columns:
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: country
         description: "The user's country code."
       - name: plan
         description: "The user's subscription plan."
-        tests:
+        data_tests:
           - accepted_values:
-              values: ['free', 'premium']
+              arguments:
+                values: ['free', 'premium']

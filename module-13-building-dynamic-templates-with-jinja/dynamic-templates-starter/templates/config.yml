@@ -1,0 +1,6 @@
+library: {{ library_name }}
+branches:
+{# TODO 4 — Loop over `branches`. For each branch, output two lines:
+     - name: <branch>
+       slug: <branch, lower-cased with the `lower` filter>
+   Use a {% for %} loop. #}

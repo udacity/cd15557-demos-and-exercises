@@ -1,32 +1,89 @@
-# Solution: Reusing Loan-Status Logic with a Macro
+# Solution: Building Dynamic Templates with Jinja
 *Building Dynamic Templates with Jinja*
 
-One macro completes the exercise: `macros/loan_status.sql`.
+Jinja is a general-purpose templating engine. dbt uses it on SQL, but it works on
+any text. This solution renders three file types (HTML, SQL, YAML) from one small
+dataset, using the four core ideas from this module: **template inheritance**,
+**conditionals**, **filters**, and **whitespace control**.
 
-```sql
-{% macro loan_status(return_date_column) %}
-    case
-        when {{ return_date_column }} is null then 'on loan'
-        else 'returned'
-    end
-{% endmacro %}
+Run it:
+
+```bash
+pip install -r requirements.txt
+python render.py
 ```
 
-The provided model `loan_status_report.sql` calls it with
-`{{ loan_status('return_date') }}`. When dbt compiles the model, that call is
-replaced by the `CASE` expression, with `return_date` dropped into the
-`{{ return_date_column }}` slot.
+It writes three files to `output/`.
 
-## Expected result
+## Where each concept lives
 
-`loan_status_report` has **10 rows** (one per loan):
-
-- 4 loans read `on loan` (no return date): loan_ids 102, 105, 107, 109
-- 6 loans read `returned`
-
-| status | count |
+| Concept | Where |
 |---|---|
-| returned | 6 |
-| on loan | 4 |
+| Template inheritance | `templates/report.html` extends `templates/base.html` (`{% extends %}` + `{% block %}`) |
+| Conditionals | `{% if loan.days_overdue > 0 %}` in `report.html`; `{% if genre %}` in `query.sql` |
+| Filters | built-in `upper`/`lower`, plus the custom `fine` filter registered in `render.py` |
+| Whitespace control | `trim_blocks` + `lstrip_blocks` in `render.py`, so `{% %}` tags don't leave blank lines or stray indentation |
 
-`dbt compile --select loan_status_report` shows the macro expanded into real SQL.
+## Completed templates
+
+**`templates/report.html`** — extends the base, overrides its blocks, loops the
+loans, branches on overdue vs. on time, and formats the fine with the custom filter:
+
+```html
+{% extends "base.html" %}
+
+{% block title %}Overdue Loans — {{ library_name }}{% endblock %}
+{% block heading %}Overdue Loans{% endblock %}
+
+{% block content %}
+    <ul>
+    {% for loan in loans %}
+      <li>
+        {{ loan.title | upper }} — {{ loan.borrower }}:
+        {% if loan.days_overdue > 0 %}
+          {{ loan.days_overdue }} days overdue, fine {{ loan.days_overdue | fine }}
+        {% else %}
+          on time
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+```
+
+**`templates/query.sql`** — the `where` clause only appears when a genre is passed:
+
+```sql
+select title, borrower, days_overdue
+from loans
+{% if genre %}
+where genre = '{{ genre }}'
+{% endif %}
+order by days_overdue desc
+```
+
+**`templates/config.yml`** — one entry per branch, slug lower-cased with a filter:
+
+```yaml
+library: {{ library_name }}
+branches:
+{% for branch in branches %}
+  - name: {{ branch }}
+    slug: {{ branch | lower }}
+{% endfor %}
+```
+
+## Expected output
+
+- `output/overdue_loans.html` — 4 loans; "Dune" (12 days) and "The Pragmatic
+  Programmer" (3 days) show a fine, the other two read "on time".
+- `output/loans_query.sql` — includes `where genre = 'Science Fiction'`. Pass
+  `genre=None` in `render.py` and the `where` line disappears, with no blank line
+  left behind (that is `trim_blocks`/`lstrip_blocks` at work).
+- `output/branches.yml` — three branches with lower-cased slugs.
+
+## The takeaway for dbt
+
+A dbt model is just a Jinja template whose output happens to be SQL. The same
+`{% if %}`, `{% for %}`, filters, and whitespace rules you used here are exactly
+what you'll use inside models in the next module.

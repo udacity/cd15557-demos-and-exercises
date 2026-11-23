@@ -1,0 +1,6 @@
+library: {{ library_name }}
+branches:
+{% for branch in branches %}
+  - name: {{ branch }}
+    slug: {{ branch | lower }}
+{% endfor %}

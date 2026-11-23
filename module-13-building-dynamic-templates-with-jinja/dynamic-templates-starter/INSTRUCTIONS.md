@@ -1,43 +1,59 @@
-# Reusing Loan-Status Logic with a Macro
+# Building Dynamic Templates with Jinja
 *Building Dynamic Templates with Jinja*
 
-dbt models are **Jinja templates** that compile to SQL. A **macro** is a named, reusable piece of that template: write the logic once, call it from many models.
+Jinja is a general-purpose templating engine. In the next module you'll use it
+inside dbt, but Jinja isn't tied to dbt or to SQL: it turns *any* text template
+plus some data into a finished file. Getting comfortable with plain Jinja now
+makes the dbt version obvious later.
 
-In this exercise you'll write a macro that turns a return date into a readable status, then watch a model call it.
+You'll generate three of the library's daily artifacts from one small dataset:
 
-## The base (already provided)
+- an **HTML** overdue-loans report,
+- a **SQL** query,
+- a **YAML** config file.
 
-Seeds, sources, the staging models, and the intermediate model. A model, `models/marts/loan_status_report.sql`, is already written and **calls the macro you're about to build**:
+## What's provided
 
-```sql
-{{ loan_status('return_date') }} as status
-```
+- `render.py` — the harness. It loads the data, sets up Jinja, and renders each
+  template to `output/`. It also registers a custom `fine` filter and turns on
+  `trim_blocks`/`lstrip_blocks` (whitespace control). **You don't edit this.**
+- `templates/base.html` — a finished base page with `title`, `heading`, and
+  `content` blocks for your report to inherit.
+- `templates/report.html`, `templates/query.sql`, `templates/config.yml` —
+  skeletons with `TODO` comments. **This is your work.**
 
-## Your task
-
-Write the macro **`macros/loan_status.sql`**. It takes the name of a return-date column and returns a `CASE` expression:
-
-- when that column **is null**, return `'on loan'`
-- otherwise, return `'returned'`
-
-Skeleton:
-
-```sql
-{% macro loan_status(return_date_column) %}
-    case
-        when {{ return_date_column }} is null then 'on loan'
-        else 'returned'
-    end
-{% endmacro %}
-```
-
-The `{{ return_date_column }}` is where the caller's column name gets dropped in when the template compiles. That's what makes the macro *dynamic*.
-
-## How to run
+## Setup
 
 ```bash
-dbt seed
-dbt run --select loan_status_report
+pip install -r requirements.txt
 ```
 
-To see the compiled SQL, run `dbt compile --select loan_status_report` and open the compiled file. The macro call is replaced by the real `CASE` block.
+## Your tasks
+
+Each task is one Jinja concept. Edit the file named, then re-run `python render.py`.
+
+1. **Template inheritance** — in `templates/report.html`, make the template
+   `{% extends "base.html" %}` and fill its `title`, `heading`, and `content` blocks.
+2. **A loop, a conditional, and filters** — in the `content` block, loop over
+   `loans`. Show each title in UPPERCASE (the `upper` filter) with the borrower,
+   then branch with `{% if %}`/`{% else %}`: overdue loans show the days and the
+   fine (`{{ loan.days_overdue | fine }}`); the rest show "on time".
+3. **A conditional in SQL** — in `templates/query.sql`, wrap the `where` line in
+   `{% if genre %} ... {% endif %}` so it only appears when a genre is passed.
+4. **A loop in YAML** — in `templates/config.yml`, loop over `branches` to emit a
+   `name`/`slug` pair per branch, lower-casing the slug with the `lower` filter.
+
+## Run it
+
+```bash
+python render.py
+```
+
+Open the three files in `output/` and check them. See the solution's README for
+the expected result.
+
+## Why this matters for dbt
+
+A dbt model is just a Jinja template whose output is SQL. Every tag you use here —
+`{% if %}`, `{% for %}`, filters, whitespace control — is the same tag you'll use
+inside a model in the next module.

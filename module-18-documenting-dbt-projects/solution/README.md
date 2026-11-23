@@ -1,5 +1,5 @@
 # Solution: Documenting the Library Project
-*Module 17 · Documenting dbt Projects*
+*Documenting dbt Projects*
 
 Two files complete the exercise:
 

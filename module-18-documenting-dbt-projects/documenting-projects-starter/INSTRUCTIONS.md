@@ -1,5 +1,5 @@
 # Documenting the Library Project
-*Module 17 · Documenting dbt Projects*
+*Documenting dbt Projects*
 
 In dbt, you document models and columns right in the YAML, next to the code, and dbt turns those descriptions into a browsable docs site. For text you want to reuse, write a **doc block** once and reference it with `{{ doc('name') }}`.
 

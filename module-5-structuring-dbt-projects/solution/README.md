@@ -1,5 +1,5 @@
 # Solution: Structuring the Library's Staging Layer
-*Module 5 · Structuring dbt Projects*
+*Structuring dbt Projects*
 
 Three edits complete the exercise.
 

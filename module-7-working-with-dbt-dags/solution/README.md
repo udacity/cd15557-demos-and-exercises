@@ -1,5 +1,5 @@
 # Solution: Ranking Popular Books through a DAG
-*Module 7 · Working with dbt DAGs*
+*Working with dbt DAGs*
 
 Two new models complete the DAG.
 

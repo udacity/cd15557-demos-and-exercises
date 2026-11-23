@@ -1,5 +1,5 @@
 # Solution: Building a Book Summary Mart
-*Module 9 · Building Business-Facing Models in dbt*
+*Building Business-Facing Models in dbt*
 
 One mart completes the exercise: `models/marts/book_summary.sql`.
 

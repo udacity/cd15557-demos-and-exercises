@@ -1,5 +1,5 @@
 # Ranking Popular Books through a DAG
-*Module 7 · Working with dbt DAGs*
+*Working with dbt DAGs*
 
 Every time one model references another with `ref()`, dbt records a dependency and draws an edge in the project's **DAG** (directed acyclic graph). dbt then uses that graph to build models in the right order, upstream before downstream.
 

@@ -1,5 +1,5 @@
 # Counting Loans by Genre with Jinja
-*Module 13 · Using Jinja in dbt Models*
+*Using Jinja in dbt Models*
 
 A macro is one way to use Jinja. You can also use Jinja **control structures** (`{% set %}`, `{% for %}`, `{% if %}`) directly inside a model to *generate* SQL. This is useful for repetitive columns: you write the pattern once and the loop generates each one.
 

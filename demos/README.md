@@ -39,8 +39,9 @@ streaming/
     staging/        stg_* (one clean model per raw table) + _sources.yml
                     schema.yml (tests + descriptions), docs.md (doc blocks)
     intermediate/   int_streams_enriched (streams joined to track/artist/genre)
-    marts/          plays_per_track, fct_streams, streams_by_genre
-  macros/           generate_schema_name, is_full_play
+    marts/          plays_per_track, fct_streams, streams_by_genre,
+                    stream_listen_bands, track_popularity
+  macros/           generate_schema_name, is_full_play, bucket
 ```
 
 The dataset is tiny on purpose (4 artists, 8 tracks, 5 users, 18 streams) so every
@@ -84,18 +85,22 @@ result is easy to read on screen.
 
 ---
 
-## Demo 4 — Flagging Full Plays & Counting Genres
+## Demo 4 — Banding Listens & Counting Genres
 **Module 14 · Using Jinja in dbt**
 
-1. **A macro.** Open `macros/is_full_play.sql` (seconds heard vs track length); call
-   it from `fct_streams` to flag full plays vs skips.
-   *Point:* write the rule once, reuse it everywhere.
-2. **An in-model loop.** Open `streams_by_genre.sql` — `{% set %}` + `{% for %}` +
-   `{% if not loop.last %}` stamps one play-count column per genre.
-3. **Make it configurable.** It uses `var('genres', [...])`; run
-   `dbt run --select streams_by_genre --vars 'genres: [Pop, Rock]'`; columns shrink to two.
-4. **Compile.** `dbt compile` / open `target/compiled/.../streams_by_genre.sql` —
-   Jinja is templating; the warehouse only runs plain SQL.
+1. **A reusable macro.** Open `macros/bucket.sql` — it turns a number into labeled
+   bands from a list of bounds and labels, generating a `case` ladder.
+   *Point:* write the banding rule once, reuse it on any number.
+2. **Reuse on unrelated inputs.** Open `stream_listen_bands.sql`
+   (`bucket('seconds_played', [60, 180], ['short', 'medium', 'long'])`) and
+   `track_popularity.sql` (`bucket('count(s.stream_id)', [2, 4], ['niche', 'steady', 'hit'])`).
+   Same macro, two very different inputs; run them and read the bands.
+3. **An in-model loop.** Open `streams_by_genre.sql` — `{% set %}` + `{% for %}` +
+   `{% if not loop.last %}` stamps one play-count column per genre. It uses
+   `var('genres', [...])`; run `dbt run --select streams_by_genre --vars 'genres: [Pop, Rock]'`
+   and the columns shrink to two.
+4. **Compile.** `dbt compile`, open the compiled `bucket(...)` call — Jinja is
+   templating; the warehouse only ever runs the plain `case` SQL.
 
 ---
 

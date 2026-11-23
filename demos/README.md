@@ -85,7 +85,7 @@ result is easy to read on screen.
 ---
 
 ## Demo 4 — Flagging Full Plays & Counting Genres
-**Module 13 · Using Jinja in dbt Models**
+**Module 14 · Using Jinja in dbt**
 
 1. **A macro.** Open `macros/is_full_play.sql` (seconds heard vs track length); call
    it from `fct_streams` to flag full plays vs skips.
@@ -100,7 +100,7 @@ result is easy to read on screen.
 ---
 
 ## Demo 5 — Catching Bad Streams with Tests
-**Module 15 · Adding Tests to dbt Models**
+**Module 16 · Adding Tests to dbt Models**
 
 1. **Add generic tests.** In `schema.yml`: `unique` + `not_null` on `stream_id`,
    `accepted_values` on `device`, a `relationships` test (stream → track).
@@ -111,7 +111,7 @@ result is easy to read on screen.
 ---
 
 ## Demo 6 — Documenting the Streaming Project
-**Module 17 · Documenting dbt Projects**
+**Module 18 · Documenting dbt Projects**
 
 1. **Descriptions.** Model/column descriptions in `schema.yml`.
 2. **Doc block.** A `{% docs %}` block in `docs.md`, referenced with
@@ -121,9 +121,9 @@ result is easy to read on screen.
 ---
 
 ### Notes
-- **6 demos, one module each:** M3, M7, M11, M13, M15, M17.
-- Jinja spans two modules (M12 macros, M13 in-model); this set uses a single combined
-  Jinja demo on M13, so M12 has no standalone demo. Modules 5 (Structuring) and 9
-  (Business-Facing) aren't covered by a demo here either.
+- **6 demos, one module each:** M3, M7, M11, M14, M16, M18.
+- Jinja spans two modules (M13 Building Dynamic Templates, M14 Using Jinja in dbt);
+  this set uses a single combined Jinja demo on M14, so M13 has no standalone demo.
+  Modules 5 (Structuring) and 9 (Business-Facing) aren't covered by a demo here either.
 - These are runnable walkthroughs to present or record from — no separate narration
   scripts, no recorded audio.

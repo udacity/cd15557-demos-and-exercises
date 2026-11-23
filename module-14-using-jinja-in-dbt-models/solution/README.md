@@ -1,36 +1,67 @@
-# Solution: Counting Loans by Genre with Jinja
-*Using Jinja in dbt Models*
+# Solution: Cleaning Dates and Toggling Grain with Jinja
+*Using Jinja in dbt*
 
-One model completes the exercise: `models/marts/loans_by_genre.sql`.
+Two uses of Jinja in dbt: a **macro** (reusable logic) and **in-model Jinja**
+(`var()` driving the SQL at run time).
+
+## 1. The macro — `macros/clean_date.sql`
 
 ```sql
-{% set genres = var('genres', ['Mystery', 'Fiction', 'Technical']) %}
-
-select
-    {% for g in genres %}
-    count(*) filter (where genre = '{{ g }}') as {{ g | lower }}_loans
-    {%- if not loop.last %},{% endif %}
-    {% endfor %}
-from {{ ref('int_book_loans') }}
+{% macro clean_date(column) %}
+    try_cast(nullif(trim({{ column }}), '') as date)
+{% endmacro %}
 ```
 
-`var('genres', [...])` reads a project variable and falls back to the default
-list, so the model is configurable: `dbt run --select loans_by_genre --vars
-'genres: [Mystery, Fiction]'` rebuilds it with just those two columns. The
-`for`-loop stamps out one `count(...)` column per genre, and
-`{% if not loop.last %},{% endif %}` places commas between them but not after the
-last one.
+`nullif(trim(...), '')` turns a blank string into `NULL` (loans still out have no
+return date), and `try_cast(... as date)` returns `NULL` instead of erroring on a
+bad value. Written once, used anywhere a text date needs cleaning.
+
+## 2. Reusing it — `models/staging/stg_loans.sql`
+
+```sql
+select
+    loan_id,
+    book_id,
+    member_id,
+    {{ clean_date('loan_date') }} as loan_date,
+    {{ clean_date('return_date') }} as return_date
+from {{ source('library', 'raw_loans') }}
+```
+
+One macro, called on two columns. `return_date` comes back `NULL` for the four
+loans that are still out (loan_ids 102, 105, 107, 109).
+
+## 3. The grain toggle — `models/marts/loans_per_period.sql`
+
+```sql
+select
+    date_trunc('{{ var("loan_period", "month") }}', loan_date) as period,
+    count(*) as loans
+from {{ ref('int_book_loans') }}
+group by 1
+order by 1
+```
+
+`var('loan_period', 'month')` defaults to monthly. The same model reports at any
+grain with no edits:
+
+```bash
+dbt run --select loans_per_period                          # month
+dbt run --select loans_per_period --vars 'loan_period: week'   # week
+```
 
 ## Expected result
 
-A single row:
+| grain | rows |
+|---|---|
+| `month` (default) | 1 row — `2026-01-01`, 10 loans |
+| `week` | 4 rows — 3, 3, 3, 1 |
 
-| mystery_loans | fiction_loans | technical_loans |
-|---|---|---|
-| 3 | 1 | 6 |
+`dbt compile --select loans_per_period` shows `var()` replaced by the literal
+grain, e.g. `date_trunc('week', loan_date)`.
 
-(Mystery: 3 loans of book 1. Fiction: 1 loan of book 3. Technical: 3 + 2 + 1 = 6
-across books 2, 4, and 6. Total 10 loans.)
+## The takeaway
 
-`dbt compile --select loans_by_genre` shows the loop expanded into three explicit
-`count(...)` columns.
+A macro centralizes a rule you reuse (`clean_date`); `var()` lets one model serve
+several needs without edits (`loan_period`). Neither requires touching the model's
+SQL by hand once it's written.

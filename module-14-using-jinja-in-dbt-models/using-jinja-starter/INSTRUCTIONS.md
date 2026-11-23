@@ -1,39 +1,54 @@
-# Counting Loans by Genre with Jinja
-*Using Jinja in dbt Models*
+# Cleaning Dates and Toggling Grain with Jinja
+*Using Jinja in dbt*
 
-A macro is one way to use Jinja. You can also use Jinja **control structures** (`{% set %}`, `{% for %}`, `{% if %}`) directly inside a model to *generate* SQL. This is useful for repetitive columns: you write the pattern once and the loop generates each one.
+Jinja shows up in dbt in two ways, and you'll use both here:
+
+1. a **macro** — reusable logic you call from many places, and
+2. **in-model Jinja** — `var()`, expressions, and control structures written
+   directly inside a model.
+
+The library's raw loan dates arrive as **text**, and `return_date` is blank for
+loans that are still out. You'll write one macro to clean any date column, reuse
+it, and then build a report whose time grain you can change at run time.
 
 ## The base (already provided)
 
-Seeds, sources, the staging models, and the intermediate model `int_book_loans` (one row per loan, with the book's `genre`).
+Seeds, sources, the staging models, and `int_book_loans` (one row per loan, with
+the book's `genre` and the loan dates). `dbt_project.yml` loads `loan_date` and
+`return_date` as text on purpose, so they genuinely need cleaning.
 
-## Your task
+## Your tasks
 
-Complete **`models/marts/loans_by_genre.sql`** so a Jinja `for`-loop builds one count column per genre. The genre list comes from a **`var()` with a default**, so the same model can be re-run for a different set of genres without editing it:
+**1. Write the macro — `macros/clean_date.sql`.**
+`clean_date(column)` turns a text date column into a real `DATE`: a blank string
+becomes `NULL`, and an invalid value doesn't crash the run.
+(`nullif(trim(...), '')` + `try_cast(... as date)`.)
+
+**2. Reuse it — `models/staging/stg_loans.sql`.**
+Call `clean_date()` on **both** `loan_date` and `return_date`. One macro, two
+columns — that's the point of a macro.
+
+**3. Toggle the grain — `models/marts/loans_per_period.sql`.**
+Count loans per time period, with the period's grain coming from a `var()`:
 
 ```sql
-{% set genres = var('genres', ['Mystery', 'Fiction', 'Technical']) %}
+date_trunc('{{ var("loan_period", "month") }}', loan_date) as period
 ```
 
-`var('genres', [...])` reads a project variable named `genres` and falls back to the default list when none is supplied. Override it at run time with `--vars`, e.g. `dbt run --select loans_by_genre --vars 'genres: [Mystery, Fiction]'`.
+`var('loan_period', 'month')` defaults to monthly. Override it at run time without
+editing the model:
 
-The result should be a **single row**, one column per genre:
-
-| mystery_loans | fiction_loans | technical_loans |
-|---|---|---|
-
-Inside the loop, for each genre `g`:
-- count the loans whose `genre` equals `g`
-- name the column `{{ g | lower }}_loans`
-- put a comma after every column **except the last**, using `{% if not loop.last %},{% endif %}`
-
-DuckDB supports `count(*) filter (where genre = '...')` for a conditional count.
+```bash
+dbt run --select loans_per_period --vars 'loan_period: week'
+```
 
 ## How to run
 
 ```bash
 dbt seed
-dbt run --select loans_by_genre
+dbt run
 ```
 
-Run `dbt compile --select loans_by_genre` to see the loop expanded into three real `count(...)` columns.
+With the default grain you'll get **one January row (10 loans)**. Re-run with
+`--vars 'loan_period: week'` and it splits into weeks (3, 3, 3, 1). Use
+`dbt compile --select loans_per_period` to see the `var()` dropped into real SQL.

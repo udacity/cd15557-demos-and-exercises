@@ -1,0 +1,19 @@
+name: 'library'
+version: '1.0.0'
+profile: 'library'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+seeds:
+  library:
+    raw:
+      # The raw_* files load into a dedicated 'raw' schema and are treated as sources.
+      +schema: raw
+
+models:
+  library:
+    staging:
+      +materialized: view
+      # TODO (Task 3): tag the staging models so they can be selected as a group.

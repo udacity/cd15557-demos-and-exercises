@@ -1,0 +1,28 @@
+name: 'library'
+version: '1.0.0'
+profile: 'library'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+seeds:
+  library:
+    raw:
+      +schema: raw
+      raw_loans:
+        # Load the dates as text so they genuinely need cleaning, which is what
+        # the clean_date() macro is for.
+        +column_types:
+          loan_date: varchar
+          return_date: varchar
+
+models:
+  library:
+    staging:
+      +materialized: view
+      +tags: ['staging']
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table

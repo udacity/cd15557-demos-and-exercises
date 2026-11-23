@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}{{ library_name }}{% endblock %}</title>
+  </head>
+  <body>
+    <h1>{% block heading %}{{ library_name }}{% endblock %}</h1>
+    {% block content %}{% endblock %}
+  </body>
+</html>

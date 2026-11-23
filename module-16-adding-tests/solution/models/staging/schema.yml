@@ -4,22 +4,24 @@ models:
   - name: stg_books
     columns:
       - name: book_id
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: genre
-        tests:
+        data_tests:
           - accepted_values:
-              values: ['Mystery', 'Fiction', 'Technical']
+              arguments:
+                values: ['Mystery', 'Fiction', 'Technical']
 
   - name: stg_loans
     columns:
       - name: loan_id
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: book_id
-        tests:
+        data_tests:
           - relationships:
-              to: ref('stg_books')
-              field: book_id
+              arguments:
+                to: ref('stg_books')
+                field: book_id

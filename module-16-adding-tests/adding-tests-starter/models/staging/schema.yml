@@ -5,14 +5,15 @@ models:
   - name: stg_books
     columns:
       - name: book_id
-        tests:
+        data_tests:
           - unique
           - not_null
       # TODO: test that `genre` is only ever one of the three known values.
       # - name: genre
-      #   tests:
+      #   data_tests:
       #     - accepted_values:
-      #         values: ['Mystery', 'Fiction', 'Technical']
+      #         arguments:
+      #           values: ['Mystery', 'Fiction', 'Technical']
 
   # TODO: add stg_loans below.
   #   * loan_id  -> unique, not_null

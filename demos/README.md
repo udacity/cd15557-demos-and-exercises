@@ -41,7 +41,7 @@ streaming/
     intermediate/   int_streams_enriched (streams joined to track/artist/genre)
     marts/          plays_per_track, fct_streams, streams_by_genre,
                     stream_listen_bands, track_popularity
-  macros/           generate_schema_name, is_full_play, bucket
+  macros/           generate_schema_name, bucket
 ```
 
 The dataset is tiny on purpose (4 artists, 8 tracks, 5 users, 18 streams) so every

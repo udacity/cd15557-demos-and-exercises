@@ -38,10 +38,10 @@ env.filters["fine"] = fine
 library_name = "Riverside Library"
 
 loans = [
-    {"title": "The Pragmatic Programmer", "borrower": "Ada Lovelace", "days_overdue": 3},
-    {"title": "Clean Code", "borrower": "Alan Turing", "days_overdue": 0},
-    {"title": "Dune", "borrower": "Grace Hopper", "days_overdue": 12},
-    {"title": "SQL for Smarties", "borrower": "Edsger Dijkstra", "days_overdue": 0},
+    {"title": "The Pragmatic Programmer", "borrower": "Member 1042", "days_overdue": 3},
+    {"title": "Clean Code", "borrower": "Member 1177", "days_overdue": 0},
+    {"title": "Dune", "borrower": "Member 1203", "days_overdue": 12},
+    {"title": "SQL for Smarties", "borrower": "Member 1318", "days_overdue": 0},
 ]
 
 branches = ["Downtown", "Riverside", "Hilltop"]

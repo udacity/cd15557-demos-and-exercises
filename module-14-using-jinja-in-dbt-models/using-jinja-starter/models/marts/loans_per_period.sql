@@ -6,7 +6,7 @@
    Replace the placeholder below with:
        date_trunc('{{ var("loan_period", "month") }}', loan_date) as period,
        count(*) as loans
-   grouped by the period. (loan_date must be a real date first - see TODO 1 & 2.) #}
+   grouped by the period. #}
 select
     count(*) as loans   -- placeholder so the starter runs before you begin
 from {{ ref('int_book_loans') }}

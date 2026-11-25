@@ -26,6 +26,7 @@ models/
   staging/        stg_* (one clean model per raw table) + _sources.yml
                   schema.yml (tests + descriptions), docs.md (doc blocks)
   intermediate/   int_streams_enriched (streams joined to track/artist/genre)
-  marts/          plays_per_track, fct_streams, streams_by_genre
-macros/           generate_schema_name, is_full_play
+  marts/          plays_per_track, fct_streams, streams_by_genre,
+                  stream_listen_bands, track_popularity
+macros/           generate_schema_name, bucket
 ```

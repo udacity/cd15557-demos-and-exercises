@@ -21,12 +21,6 @@ You'll generate three of the library's daily artifacts from one small dataset:
 - `templates/report.html`, `templates/query.sql`, `templates/config.yml` —
   skeletons with `TODO` comments. **This is your work.**
 
-## Setup
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Your tasks
 
 Each task is one Jinja concept. Edit the file named, then re-run `python render.py`.

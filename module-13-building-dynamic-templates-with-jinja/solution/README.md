@@ -9,7 +9,6 @@ dataset, using the four core ideas from this module: **template inheritance**,
 Run it:
 
 ```bash
-pip install -r requirements.txt
 python render.py
 ```
 

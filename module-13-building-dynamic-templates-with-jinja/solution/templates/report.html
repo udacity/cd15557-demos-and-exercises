@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Overdue Loans — {{ library_name }}{% endblock %}
+{% block heading %}Overdue Loans{% endblock %}
+
+{% block content %}
+    <ul>
+    {% for loan in loans %}
+      <li>
+        {{ loan.title | upper }} — {{ loan.borrower }}:
+        {% if loan.days_overdue > 0 %}
+          {{ loan.days_overdue }} days overdue, fine {{ loan.days_overdue | fine }}
+        {% else %}
+          on time
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

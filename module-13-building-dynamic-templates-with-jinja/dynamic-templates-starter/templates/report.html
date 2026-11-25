@@ -1,0 +1,17 @@
+{# TODO 1 — Template inheritance.
+   Make this template EXTEND base.html, then override its `title`, `heading`,
+   and `content` blocks. (base.html is already written for you.) #}
+
+{% block title %}{# TODO: Overdue Loans — {{ library_name }} #}{% endblock %}
+{% block heading %}{# TODO: Overdue Loans #}{% endblock %}
+
+{% block content %}
+    <ul>
+    {# TODO 2 — Loop over `loans`. For each loan, show:
+         <TITLE IN UPPERCASE> — <borrower>:
+       then, if days_overdue > 0:   <n> days overdue, fine <fine>
+             otherwise:             on time
+       Use {% for %}, {% if %}/{% else %}, the `upper` filter, and the
+       custom `fine` filter ({{ loan.days_overdue | fine }}). #}
+    </ul>
+{% endblock %}

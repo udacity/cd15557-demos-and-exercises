@@ -1,0 +1,16 @@
+name: 'library'
+version: '1.0.0'
+profile: 'library'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+
+# Default materializations by folder:
+#   staging models are views (lightweight, always fresh)
+#   mart models are tables (materialized for fast reads)
+models:
+  library:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

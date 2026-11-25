@@ -20,13 +20,14 @@ the book's `genre` and the loan dates). `dbt_project.yml` loads `loan_date` and
 ## Your tasks
 
 **1. Write the macro — `macros/clean_date.sql`.**
-`clean_date(column)` turns a text date column into a real `DATE`: a blank string
-becomes `NULL`, and an invalid value doesn't crash the run.
-(`nullif(trim(...), '')` + `try_cast(... as date)`.)
+Open `models/staging/stg_loans.sql` first. The same cleaning expression,
+`try_cast(nullif(trim(...), '') as date)`, is pasted in for both `loan_date` and
+`return_date`. Move it into `clean_date(column)` so the rule lives in one place:
+a blank string becomes `NULL`, and an invalid value doesn't crash the run.
 
 **2. Reuse it — `models/staging/stg_loans.sql`.**
-Call `clean_date()` on **both** `loan_date` and `return_date`. One macro, two
-columns — that's the point of a macro.
+Replace **both** copies of the expression with calls to `clean_date()`. One macro,
+two columns: that's the point of a macro. Re-run, and the results shouldn't change.
 
 **3. Toggle the grain — `models/marts/loans_per_period.sql`.**
 Count loans per time period, with the period's grain coming from a `var()`:

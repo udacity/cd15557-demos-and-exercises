@@ -9,8 +9,8 @@ Key ideas:
 - Measures are derived: `loan_duration_days` uses date subtraction (DuckDB
   returns whole days), and `is_returned` is a boolean flag.
 - `book_loans_to_date` is a **window function**, `count(*) over (partition by book_id order by loan_date, loan_id)`, a running
-  count of loans per book that keeps the one-row-per-loan grain. It is the same
-  running-total pattern the course project uses for running revenue.
+  count of loans per book that keeps the one-row-per-loan grain. The same pattern
+  produces any running total, such as cumulative sales or sign-ups.
 
 ## Expected result
 

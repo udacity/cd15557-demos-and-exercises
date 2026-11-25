@@ -1,4 +1,4 @@
--- Solution: models/staging/stg_loans.sql
+-- Provided base model (staging layer).
 select
     loan_id,
     book_id,

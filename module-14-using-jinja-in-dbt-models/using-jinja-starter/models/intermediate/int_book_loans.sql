@@ -1,4 +1,4 @@
--- Solution: models/intermediate/int_book_loans.sql
+-- Provided base model (intermediate layer).
 select
     l.loan_id,
     l.book_id,

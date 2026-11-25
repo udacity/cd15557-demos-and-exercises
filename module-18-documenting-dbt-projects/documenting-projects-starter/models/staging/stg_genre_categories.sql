@@ -1,4 +1,4 @@
--- Solution: models/staging/stg_genre_categories.sql
+-- Provided base model (staging layer).
 select
     genre,
     category

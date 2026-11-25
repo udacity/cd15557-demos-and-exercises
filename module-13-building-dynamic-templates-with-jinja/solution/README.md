@@ -1,4 +1,4 @@
-# Solution: Building Dynamic Templates with Jinja
+# Solution: Templating HTML, YAML, and SQL with Jinja
 *Building Dynamic Templates with Jinja*
 
 Jinja is a general-purpose templating engine. dbt uses it on SQL, but it works on
@@ -9,7 +9,6 @@ dataset, using the four core ideas from this module: **template inheritance**,
 Run it:
 
 ```bash
-pip install -r requirements.txt
 python render.py
 ```
 
@@ -82,8 +81,8 @@ branches:
   left behind (that is `trim_blocks`/`lstrip_blocks` at work).
 - `output/branches.yml` — three branches with lower-cased slugs.
 
-## The takeaway for dbt
+## The takeaway
 
-A dbt model is just a Jinja template whose output happens to be SQL. The same
-`{% if %}`, `{% for %}`, filters, and whitespace rules you used here are exactly
-what you'll use inside models in the next module.
+Jinja doesn't care what kind of text it renders. A dbt model, for example, is a
+Jinja template whose output happens to be SQL, so the same `{% if %}`,
+`{% for %}`, filters, and whitespace rules you used here work there unchanged.
